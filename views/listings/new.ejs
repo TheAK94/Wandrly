@@ -1,13 +1,47 @@
 <% layout("/layouts/boilerplate.ejs") %>
 <body>
-    <h3>Create a New Listing</h3>
-    <form method="post" action="/listings">
-        <input type="text" name="listing[title]" placeholder="Enter title"><br><br>
-        <textarea type="text" name="listing[description]" placeholder="Enter description"></textarea><br><br>
-        <input type="text" name="listing[image][url]" placeholder="Enter image URL/link"><br><br>
-        <input type="number" name="listing[price]" placeholder="Enter price"><br><br>
-        <input type="text" name="listing[location]" placeholder="Enter location"><br><br>
-        <input type="text" name="listing[country]" placeholder="Enter country"><br><br>
-        <button>Add</button>
-    </form>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <br><br>
+            <h3>Create a New Listing</h3>
+            <br>
+            <form method="post" action="/listings">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingTitle" name="listing[title]" placeholder="Enter Title">
+                    <label for="floatingTitle">Title</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" placeholder="Enter description" id="floatingDescription" name="listing[description]" style="height: 100px"></textarea>
+                    <label for="floatingDescription">Description</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingUrl" name="listing[image][url]" placeholder="Enter Image URL">
+                    <label for="floatingUrl">Image link/URL</label>
+                </div>
+
+                
+                <div class="input-group mb-3">
+                    <span class="input-group-text">&#8377;</span>
+                    <div class="form-floating">
+                        <input type="number" class="form-control" id="floatingPrice" name="listing[price]" placeholder="Price">
+                        <label for="floatingPrice">Price</label>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingLocation" name="listing[location]" placeholder="Enter Location">
+                    <label for="floatingLocation">Location</label>
+                </div>
+                
+
+                
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingCountry" name="listing[country]" placeholder="Country">
+                    <label for="floatingCountry">Country</label>
+                </div>
+
+                <button class="btn btn-primary">Add</button>
+            </form>
+        </div>
+    </div>
 </body>
