@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const MONGO_URL = "mongodb://127.0.0.1:27017/wandrly";
 const Listing = require("./Models/listing.js");
 const path = require("path");
-
+const methodOverride = require("method-override");
 
 main()
     .then((res) => {
@@ -22,6 +22,7 @@ async function main() {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 
 app.get("/", (req, res) => {
     res.send("This is root directory");
@@ -50,6 +51,13 @@ app.post("/listings", async (req, res) => {
     let newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
+});
+
+// Edit Route
+app.get("/listings/:id/edit", async (req, res) => {
+    let {id} = req.params;
+    let listing = await Listing.findById(id);
+    res.render("listings/edit.ejs", {listing});
 });
 
 // app.get("/testListing", async (req, res) => {
