@@ -87,3 +87,7 @@ body {
 .btns {
     display: flex;
 }
+
+.rupee-symbol {
+    height: 58px !important;
+}

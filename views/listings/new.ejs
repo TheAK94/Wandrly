@@ -5,34 +5,57 @@
             <br><br>
             <h3>Create a New Listing</h3>
             <br>
-            <form method="post" action="/listings">
+            <form method="post" action="/listings" novalidate class="needs-validation">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingTitle" name="listing[title]" placeholder="Enter Title">
+                    <input type="text" class="form-control" id="floatingTitle" name="listing[title]" placeholder="Enter Title" required>
                     <label for="floatingTitle">Title</label>
+                    <div class="invalid-feedback">Title cannot be empty.</div>
                 </div>
                 <div class="form-floating mb-3">
-                    <textarea class="form-control" placeholder="Enter description" id="floatingDescription" name="listing[description]" style="height: 100px"></textarea>
+                    <textarea class="form-control" placeholder="Enter description" id="floatingDescription" name="listing[description]" style="height: 100px" required></textarea>
                     <label for="floatingDescription">Description</label>
+                    <div class="invalid-feedback">Description cannot be empty.</div>
                 </div>
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingUrl" name="listing[image][url]" placeholder="Enter Image URL">
                     <label for="floatingUrl">Image link/URL</label>
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text">&#8377;</span>
+                    <span class="input-group-text rupee-symbol">&#8377;</span>
                     <div class="form-floating">
-                        <input type="number" class="form-control" id="floatingPrice" name="listing[price]" placeholder="Price">
+                        <input type="number" class="form-control" id="floatingPrice" name="listing[price]" placeholder="Price" required min="0">
                         <label for="floatingPrice">Price</label>
+                        <div class="invalid-feedback">Please enter a valid price.</div>
                     </div>
                 </div>
+                <!-- <div class="mb-3 position-relative">
+                    <div class="input-group has-validation" style="height: 58px;">
+                        <span class="input-group-text">&#8377;</span>
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            id="floatingPrice" 
+                            name="listing[price]" 
+                            placeholder="Enter price"
+                            required 
+                            min="0"
+                        >
+                        <div class="invalid-feedback">
+                            Please enter a valid price.
+                        </div>
+                    </div>
+                </div> -->
+
 
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingLocation" name="listing[location]" placeholder="Enter Location">
+                    <input type="text" class="form-control" id="floatingLocation" name="listing[location]" placeholder="Enter Location" required>
                     <label for="floatingLocation">Location</label>
+                    <div class="invalid-feedback">Please enter name of location.</div>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingCountry" name="listing[country]" placeholder="Country">
+                    <input type="text" class="form-control" id="floatingCountry" name="listing[country]" placeholder="Country" required>
                     <label for="floatingCountry">Country</label>
+                    <div class="invalid-feedback">Please enter name of country.</div>
                 </div>
 
                 <button class="btn btn-primary">Add</button>
