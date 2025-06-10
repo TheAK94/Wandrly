@@ -7,9 +7,9 @@
             <br>
             <form method="post" action="/signup" novalidate class="needs-validation">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Enter Username" required>
+                    <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Enter Username" minlength="3" required>
                     <label for="floatingUsername">Username</label>
-                    <div class="invalid-feedback">Username cannot be empty.</div>
+                    <div class="invalid-feedback">Username should be of minimum 3 characters.</div>
                 </div>
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingEmail" name="email" placeholder="Enter Email" required>

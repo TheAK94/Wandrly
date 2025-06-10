@@ -20,3 +20,14 @@ module.exports.reviewSchema = Joi.object({
         comment: Joi.string().required()
     }).required()
 });
+
+module.exports.signupSchema = Joi.object({
+    username: Joi.string().min(3).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).required()
+});
+
+module.exports.loginSchema = Joi.object({
+    username: Joi.string().required(),
+    password: Joi.string().required()
+});

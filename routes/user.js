@@ -3,13 +3,35 @@ const router = express.Router();
 const User = require("../Models/user.js");
 const wrapAsync = require("../utils/wrapAsync");
 const passport = require("passport");
+const {signupSchema, loginSchema} = require("../schema.js");
+const ExpressError = require("../utils/ExpressError.js");
+
+const validateSignup = (req, res, next) => {
+    let {error} = signupSchema.validate(req.body);
+    if(error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+}
+
+const validateLogin = (req, res, next) => {
+    let {error} = loginSchema.validate(req.body);
+    if(error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+}
 
 // Signup Routes
 router.get("/signup", (req, res) => {
     res.render("users/signup.ejs")
 });
 
-router.post("/signup", wrapAsync(async (req, res) => {
+router.post("/signup", validateSignup, wrapAsync(async (req, res) => {
     try {
         let {username, email, password} = req.body;
         let newUser = new User({email, username});
@@ -28,7 +50,7 @@ router.get("/login", (req, res) => {
     res.render("users/login.ejs");
 });
 
-router.post("/login", passport.authenticate("local", {failureRedirect: '/login', failureFlash: true}), async (req, res) => {
+router.post("/login", validateLogin, passport.authenticate("local", {failureRedirect: '/login', failureFlash: true}), async (req, res) => {
     req.flash("success", "Welcome back to Wandrly!");
     res.redirect("/listings");
 });
