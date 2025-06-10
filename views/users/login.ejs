@@ -1,0 +1,25 @@
+<% layout('layouts/boilerplate') %> 
+<body>
+    <div class="row">
+        <div class="col-4 offset-4 mb-3">
+            <br><br>
+            <h3>Login</h3>
+            <br>
+            <form method="post" action="/login" novalidate class="needs-validation">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Enter Username" required>
+                    <label for="floatingUsername">Username</label>
+                    <div class="invalid-feedback">Username cannot be empty.</div>
+                </div>
+                
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Create Password" required>
+                    <label for="floatingPassword">Password</label>
+                    <div class="invalid-feedback">Password cannot be empty.</div>
+                </div>
+
+                <button class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
