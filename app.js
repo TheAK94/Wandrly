@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+require("dotenv").config();
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
@@ -11,7 +12,6 @@ const flash = require("connect-flash");
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wandrly";
 
 main()
     .then((res) => {
@@ -23,7 +23,7 @@ main()
 
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+    await mongoose.connect(process.env.MONGO_URL);
 }
 
 app.set("view engine", "ejs");
@@ -34,7 +34,7 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 const sessionOptions = {
-    secret: "supersecretcode",
+    secret: process.env.SESSION_SECRET || "fallbacksecret",
     resave: false,
     saveUninitialized: true,
     cookie: {
