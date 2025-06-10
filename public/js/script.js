@@ -14,3 +14,13 @@
     }, false)
   })
 })()
+
+document.addEventListener("DOMContentLoaded", () => {
+    const toastEl = document.querySelector('.toast');
+    if (toastEl) {
+        const toast = new bootstrap.Toast(toastEl, {
+			delay: 7000
+		});
+        toast.show();
+    }
+});
