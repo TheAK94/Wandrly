@@ -35,9 +35,14 @@ router.post("/signup", validateSignup, wrapAsync(async (req, res) => {
     try {
         let {username, email, password} = req.body;
         let newUser = new User({email, username});
-        await User.register(newUser, password);
-        req.flash("success", "User registered successfully!");
-        res.redirect("/listings");
+        const registeredUser = await User.register(newUser, password);
+        req.login(registeredUser, (err) => {
+            if (err) {
+                return next(err);
+            }
+            req.flash("success", "Welcome to Wandrly!");
+            res.redirect("/listings");
+        });
     } catch(err) {
         req.flash("error", err.message);
         res.redirect("/signup");
@@ -54,6 +59,18 @@ router.post("/login", validateLogin, passport.authenticate("local", {failureRedi
     req.flash("success", "Welcome back to Wandrly!");
     res.redirect("/listings");
 });
+
+// Logout Route
+router.get("/logout", (req, res) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+
+        req.flash("success", "Logged out successfully!");
+        res.redirect("/listings");
+    })
+})
 
 
 module.exports = router;
