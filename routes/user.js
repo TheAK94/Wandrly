@@ -5,6 +5,7 @@ const wrapAsync = require("../utils/wrapAsync");
 const passport = require("passport");
 const {signupSchema, loginSchema} = require("../schema.js");
 const ExpressError = require("../utils/ExpressError.js");
+const { saveRedirectUrl } = require("../middleware.js");
 
 const validateSignup = (req, res, next) => {
     let {error} = signupSchema.validate(req.body);
@@ -55,9 +56,10 @@ router.get("/login", (req, res) => {
     res.render("users/login.ejs");
 });
 
-router.post("/login", validateLogin, passport.authenticate("local", {failureRedirect: '/login', failureFlash: true}), async (req, res) => {
+router.post("/login", validateLogin, saveRedirectUrl, passport.authenticate("local", {failureRedirect: '/login', failureFlash: true}), async (req, res) => {
     req.flash("success", "Welcome back to Wandrly!");
-    res.redirect("/listings");
+    let redirectUrl = res.locals.redirectUrl || "/listings";
+    res.redirect(redirectUrl);
 });
 
 // Logout Route
