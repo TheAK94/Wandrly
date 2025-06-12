@@ -2,7 +2,19 @@ const Listing = require("./models/listing.js");
 const Review = require("./models/review.js");
 const ExpressError = require("./utils/ExpressError.js");
 const {listingSchema, reviewSchema, signupSchema, loginSchema} = require("./schema.js");
+const multer  = require('multer');
+const { storage } = require("./cloudConfig.js");
 
+const upload = multer({ 
+    storage,
+    limits: {fileSize: 5 * 1024 * 1024},
+    fileFilter(req, file, cb) {
+        if (!file.mimetype.startsWith("image/")) {
+            return cb(new Error("Only image files are allowed!"));
+        }
+        cb(null, true);
+    }
+});
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
@@ -85,4 +97,14 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     }
 
     next();
+};
+
+module.exports.imageUpload = (req, res, next) => {
+    upload.single("listing[image]")(req, res, function (err) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("/listings/new");
+        }
+        next();
+    });
 };
