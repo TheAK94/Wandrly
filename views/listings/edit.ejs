@@ -15,7 +15,11 @@
                     <div class="invalid-feedback">Description cannot be empty.</div>
                 </div>
                 <div class="mb-3">
-                    <label for="image" class="form-label">Upload new image &nbsp;<small class="text-muted fst-italic"> (max: 5MB)</small></label>
+                    <p>Original Listing Image</p>
+                    <img src="<%= imageUrl %>" alt="original-img">
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Upload New Image &nbsp;<small class="text-muted fst-italic"> (max: 5MB)</small></label>
                     <input type="file" name="listing[image]" class="form-control" required>
                     <div class="invalid-feedback">Enter a valid image link.</div>
                 </div>
