@@ -58,7 +58,7 @@ body {
 }
 
 .card-img-top {
-    border-radius: 1rem !important;
+    border-radius: 2rem !important;
     width: 100% !important;
     object-fit: cover !important;
 }
@@ -81,7 +81,8 @@ body {
 }
 
 .show-img {
-    height: 30vh;
+    max-height: 400px;
+    object-fit: cover;
 }
 
 .btns {

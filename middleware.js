@@ -1,12 +1,17 @@
 const Listing = require("./Models/listing.js");
 const Review = require("./Models/review.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingSchema, reviewSchema} = require("./schema.js");
+const {listingSchema, reviewSchema, signupSchema, loginSchema} = require("./schema.js");
 
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
-        req.session.redirectUrl = req.originalUrl;
+        if (req.method === "GET") {
+            req.session.redirectUrl = req.originalUrl;
+        } else if (req.method === "POST" || req.method === "DELETE") {
+            const { id } = req.params;
+            req.session.redirectUrl = `/listings/${id}`;
+        }
         req.flash("error", "You must be signed in!");
         return res.redirect("/login");
     }
@@ -43,6 +48,26 @@ module.exports.validateListing = (req, res, next) => {
 
 module.exports.validateReview = (req, res, next) => {
     let {error} = reviewSchema.validate(req.body);
+    if(error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+};
+
+module.exports.validateSignup = (req, res, next) => {
+    let {error} = signupSchema.validate(req.body);
+    if(error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+}
+
+module.exports.validateLogin = (req, res, next) => {
+    let {error} = loginSchema.validate(req.body);
     if(error) {
         let errMsg = error.details.map((el) => el.message).join(",");
         throw new ExpressError(400, errMsg);

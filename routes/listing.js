@@ -3,6 +3,9 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../Models/listing.js");
 const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
+const dayjs = require("dayjs");
+const relativeTime = require("dayjs/plugin/relativeTime");
+dayjs.extend(relativeTime);
 
 
 
@@ -26,7 +29,7 @@ router.get("/:id", wrapAsync(async (req, res) => {
         req.flash("error", "Listing you requested does not exist!");
         return res.redirect("/listings");
     }
-    res.render("listings/show.ejs", {listing});
+    res.render("listings/show.ejs", {listing, dayjs});
 }));
 
 // Create Route

@@ -3,29 +3,9 @@ const router = express.Router();
 const User = require("../Models/user.js");
 const wrapAsync = require("../utils/wrapAsync");
 const passport = require("passport");
-const {signupSchema, loginSchema} = require("../schema.js");
-const ExpressError = require("../utils/ExpressError.js");
 const { saveRedirectUrl } = require("../middleware.js");
+const {validateLogin, validateSignup} = require("../middleware.js");
 
-const validateSignup = (req, res, next) => {
-    let {error} = signupSchema.validate(req.body);
-    if(error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg);
-    } else {
-        next();
-    }
-}
-
-const validateLogin = (req, res, next) => {
-    let {error} = loginSchema.validate(req.body);
-    if(error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg);
-    } else {
-        next();
-    }
-}
 
 // Signup Routes
 router.get("/signup", (req, res) => {
@@ -63,14 +43,15 @@ router.post("/login", validateLogin, saveRedirectUrl, passport.authenticate("loc
 });
 
 // Logout Route
-router.get("/logout", (req, res) => {
+router.get("/logout", saveRedirectUrl, (req, res) => {
     req.logout((err) => {
         if (err) {
             return next(err);
         }
 
         req.flash("success", "Logged out successfully!");
-        res.redirect("/listings");
+        let redirectUrl = res.locals.redirectUrl || "/listings";
+        res.redirect(redirectUrl);
     })
 })
 
