@@ -100,10 +100,15 @@ module.exports.isReviewAuthor = async (req, res, next) => {
 };
 
 module.exports.imageUpload = (req, res, next) => {
+    let {id} = req.params;
     upload.single("listing[image]")(req, res, function (err) {
         if (err) {
             req.flash("error", err.message);
-            return res.redirect("/listings/new");
+            if (typeof id === "undefined") {
+                return res.redirect("/listings/new");
+            }
+            return res.redirect(`/listings/${id}`);
+            
         }
         next();
     });
