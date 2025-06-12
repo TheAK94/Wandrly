@@ -5,7 +5,7 @@
             <br><br>
             <h3>Create a New Listing</h3>
             <br>
-            <form method="post" action="/listings" novalidate class="needs-validation">
+            <form method="post" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingTitle" name="listing[title]" placeholder="Enter Title" required>
                     <label for="floatingTitle">Title</label>
@@ -16,9 +16,15 @@
                     <label for="floatingDescription">Description</label>
                     <div class="invalid-feedback">Description cannot be empty.</div>
                 </div>
-                <div class="form-floating mb-3">
+
+                <!-- <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingUrl" name="listing[image][url]" placeholder="Enter Image URL">
                     <label for="floatingUrl">Image link/URL</label>
+                </div> -->
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Upload listing image: </label>
+                    <input type="file" name="listing[image]" class="form-control" id="image">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text rupee-symbol">&#8377;</span>
