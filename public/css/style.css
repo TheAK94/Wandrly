@@ -91,3 +91,7 @@ body {
 .rupee-symbol {
     height: 58px !important;
 }
+
+p {
+    margin-bottom: 0.5rem !important;
+}
