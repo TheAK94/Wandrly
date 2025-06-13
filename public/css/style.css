@@ -52,6 +52,10 @@ body {
 }
 
 /* Cards */
+.card {
+    position: relative;
+}
+
 .listing-card {
     border: none !important;
     margin-bottom: 2rem;

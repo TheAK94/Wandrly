@@ -11,7 +11,24 @@ dayjs.extend(relativeTime);
 module.exports.index = async (req, res) => {
     const {category} = req.query;
     let listings;
-    if (category) {
+    
+    if (category === "Trending") {
+        listings = await Listing.aggregate([
+            {
+                $addFields: {
+                    reviewCount: { $size: "$reviews" }
+                }
+            },
+            {
+                $match: {
+                    reviewCount: { $gte: 5 }
+                }
+            },
+            {
+                $sort: { reviewCount: -1 }
+            }
+        ]);
+    } else if (category) {
         listings = await Listing.find({ category });
     } else {
         listings = await Listing.find({});
