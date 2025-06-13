@@ -1,5 +1,6 @@
 <% layout('layouts/boilerplate') %>
 <style>
+    
     .filter {
         text-align: center;
         margin-right: 2rem;
@@ -17,34 +18,53 @@
     .filter p {
         font-size: 0.8rem;
     }
+
+    .tax-info {
+        display: inline;
+    }
+
 </style>
 <body>
-    <div id="filters" class="d-flex flex-wrap">
-        <% const currentCategory = category || null; %>
+    <div id="filters" class="d-flex justify-content-between">
+        <div class="d-flex flex-wrap align-items-center pt-2">
+            <% const currentCategory = category || null; %>
 
-        <% const categories = [
-            { name: "Trending", icon: "fa-solid fa-fire" },
-            { name: "Rooms", icon: "fa-solid fa-bed" },
-            { name: "Iconic cities", icon: "fa-solid fa-city" },
-            { name: "Mountains", icon: "fa-solid fa-mountain" },
-            { name: "Castles", icon: "fa-brands fa-fort-awesome" },
-            { name: "Beaches", icon: "fa-solid fa-umbrella-beach" },
-            { name: "Camping", icon: "fa-solid fa-tent" },
-            { name: "Farms", icon: "fa-solid fa-cow" },
-            { name: "Arctic", icon: "fa-solid fa-snowman" }
-        ]; %>
+            <% const categories = [
+                { name: "Trending", icon: "fa-solid fa-fire" },
+                { name: "Rooms", icon: "fa-solid fa-bed" },
+                { name: "Iconic cities", icon: "fa-solid fa-city" },
+                { name: "Mountains", icon: "fa-solid fa-mountain" },
+                { name: "Castles", icon: "fa-brands fa-fort-awesome" },
+                { name: "Beaches", icon: "fa-solid fa-umbrella-beach" },
+                { name: "Camping", icon: "fa-solid fa-tent" },
+                { name: "Farms", icon: "fa-solid fa-cow" },
+                { name: "Arctic", icon: "fa-solid fa-snowman" }
+            ]; %>
 
-        <% categories.forEach(cat => { 
-            const isActive = (cat.name === currentCategory);
-            const href = isActive ? "/listings" : `/listings?category=${encodeURIComponent(cat.name)}`;
-        %>
-            <a href="<%= href %>" 
-            class="filter text-decoration-none px-3 py-2 m-0 mt-2 rounded text-center <% if (cat.name === currentCategory) { %>bg-dark text-white<% } else { %>text-dark<% } %>" 
-            data-category="<%= cat.name %>">
-                <div><i class="<%= cat.icon %>"></i></div>
-                <p class="mb-0"><%= cat.name %></p>
-            </a>
-        <% }); %>
+            <% categories.forEach(cat => { 
+                const isActive = (cat.name === currentCategory);
+                const href = isActive ? "/listings" : `/listings?category=${encodeURIComponent(cat.name)}`;
+            %>
+                <a href="<%= href %>" 
+                class="filter text-decoration-none px-3 py-2 m-0 mt-2 rounded text-center <% if (cat.name === currentCategory) { %>bg-dark text-white<% } else { %>text-dark<% } %>" 
+                data-category="<%= cat.name %>">
+                    <div><i class="<%= cat.icon %>"></i></div>
+                    <p class="mb-0"><%= cat.name %></p>
+                </a>
+            <% }); %>
+        </div>
+        
+        <div class="d-flex flex-wrap align-items-center pt-2">
+            <div class="tax-toggle">
+                <div class="d-flex align-items-center border rounded-pill px-3 py-2 bg-white shadow-sm" style="gap: 0.5rem;">
+                    <label class="form-check-label" for="switchCheckDefault">After taxes</label>
+                    <div class="form-check form-switch m-0">
+                        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <% if (listings.length === 0) { %>
@@ -61,7 +81,8 @@
                         <div class="card-body">
                             <p class="card-text">
                                 <b><%= listing.title %></b> <br>
-                                &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                                &#8377; <span id="price-<%= listing._id %>"><%= listing.price.toLocaleString("en-IN") %></span> / night
+                                <span class="tax-info text-muted" style="font-size: smaller;"><i> &nbsp;&nbsp; +18% GST</i></span>
                             </p>
                         </div>
                     </div>
@@ -71,3 +92,23 @@
     <% } %>
     
 </body>
+
+<script>
+    const toggle = document.getElementById("switchCheckDefault");
+
+    toggle.addEventListener("change", () => {
+        const listings = <%- JSON.stringify(listings) %>; // Make sure you're passing `listings` to EJS
+        
+        listings.forEach(listing => {
+            const priceEl = document.getElementById(`price-${listing._id}`);
+            if (!priceEl) return;
+            
+            const basePrice = listing.price;
+            const gstPrice = Math.round(basePrice * 1.18);
+
+            priceEl.innerText = toggle.checked 
+                ? gstPrice.toLocaleString("en-IN")
+                : basePrice.toLocaleString("en-IN");
+        });
+    });
+</script>
