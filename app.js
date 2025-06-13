@@ -52,9 +52,9 @@ const sessionOptions = {
 };
 
 
-app.get("/", (req, res) => {
-    res.send("This is root directory");
-});
+// app.get("/", (req, res) => {
+//     res.send("This is root directory");
+// });
 
 
 app.use(session(sessionOptions));
