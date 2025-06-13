@@ -22,6 +22,7 @@
                     <div>
                         <p><b>Owned by:</b> <i><%= listing.owner.username %></i></p>
                         <p><%= listing.description %></p>
+                        <p><b>Category:</b> <%= listing.category %></p>
                         <p><b>Price:</b> ₹<%= listing.price.toLocaleString("en-IN") %></p>
                         <p><b>Location:</b> <%= listing.location %>, <%= listing.country %></p>
 

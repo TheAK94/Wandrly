@@ -20,23 +20,44 @@
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Upload New Image &nbsp;<small class="text-muted fst-italic"> (max: 5MB)</small></label>
-                    <input type="file" name="listing[image]" class="form-control" required>
-                    <div class="invalid-feedback">Enter a valid image link.</div>
+                    <input type="file" name="listing[image]" class="form-control">
                 </div>
-                <div class="mb-3">
-                    <label for="price" class="form-label">Price (in &#8377;)</label>
-                    <input type="number" name="listing[price]" value="<%=listing.price%>" class="form-control" required min="0">
-                    <div class="invalid-feedback">Please enter a valid price.</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price (in &#8377;)</label>
+                            <input type="number" name="listing[price]" value="<%=listing.price%>" class="form-control" required min="0">
+                            <div class="invalid-feedback">Please enter a valid price.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-select" id="category" name="listing[category]" required>
+                                <% const categories = ["Rooms", "Iconic cities", "Mountains", "Castles", "Beaches", "Camping", "Farms", "Arctic"]; %>
+                                <% categories.forEach(c => { %>
+                                    <option value="<%= c %>" <%= listing.category === c ? "selected" : "" %>><%= c %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location</label>
-                    <input type="text" name="listing[location]" value="<%=listing.location%>" class="form-control" required>
-                    <div class="invalid-feedback">Please enter name of location.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="country" class="form-label">Country</label>
-                    <input type="text" name="listing[country]" value="<%=listing.country%>" class="form-control" required>
-                    <div class="invalid-feedback">Please enter name of country.</div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" name="listing[location]" value="<%=listing.location%>" class="form-control" required>
+                            <div class="invalid-feedback">Please enter name of location.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="country" class="form-label">Country</label>
+                            <input type="text" name="listing[country]" value="<%=listing.country%>" class="form-control" required>
+                            <div class="invalid-feedback">Please enter name of country.</div>
+                        </div>
+                    </div>
                 </div>
 
                 <button class="btn btn-primary mb-3">Save</button>

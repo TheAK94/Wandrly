@@ -5,11 +5,13 @@
         margin-right: 2rem;
         margin-top: 2rem;
         opacity: 0.7;
+        color: rgb(60, 60, 60);
     }
 
     .filter:hover {
         opacity: 1;
         cursor: pointer;
+        transform: scale(1.05);
     }
 
     .filter p {
@@ -17,60 +19,55 @@
     }
 </style>
 <body>
-    
     <div id="filters" class="d-flex flex-wrap">
-        <div class="filter">
-            <div><i class="fa-solid fa-fire"></i></div>
-            <p>Trending</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-bed"></i></div>
-            <p>Rooms</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-city"></i></i></div>
-            <p>Iconic cities</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-mountain"></i></div>
-            <p>Mountains</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-brands fa-fort-awesome"></i></div>
-            <p>Castles</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-person-swimming"></i></div>
-            <p>Amazing pools</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-tent"></i></div>
-            <p>Camping</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-cow"></i></i></div>
-            <p>Farms</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-snowman"></i></div>
-            <p>Arctic</p>
-        </div>
-    </div>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-        <% for(let listing of allListings) { %>
-            <a href="/listings/<%=listing._id%>" style="text-decoration: none;">
-                <div class="card col listing-card">
-                <img src="<%=listing.image.url%>" class="card-img-top" alt="listing" style="height: 20rem;">
-                <div class="card-img-overlay"></div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            <b><%= listing.title %></b> <br>
-                            &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
-                        </p>
-                    </div>
-                </div>
+        <% const currentCategory = category || null; %>
+
+        <% const categories = [
+            { name: "Trending", icon: "fa-fire" },
+            { name: "Rooms", icon: "fa-bed" },
+            { name: "Iconic cities", icon: "fa-city" },
+            { name: "Mountains", icon: "fa-mountain" },
+            { name: "Castles", icon: "fa-fort-awesome" },
+            { name: "Beaches", icon: "fa-umbrella-beach" },
+            { name: "Camping", icon: "fa-tent" },
+            { name: "Farms", icon: "fa-cow" },
+            { name: "Arctic", icon: "fa-snowman" }
+        ]; %>
+
+        <% categories.forEach(cat => { 
+            const isActive = (cat.name === currentCategory);
+            const href = isActive ? "/listings" : `/listings?category=${encodeURIComponent(cat.name)}`;
+        %>
+            <a href="<%= href %>" 
+            class="filter text-decoration-none px-3 py-2 m-0 mt-2 rounded text-center <% if (cat.name === currentCategory) { %>bg-dark text-white<% } else { %>text-dark<% } %>" 
+            data-category="<%= cat.name %>">
+                <div><i class="fa-solid <%= cat.icon %>"></i></div>
+                <p class="mb-0"><%= cat.name %></p>
             </a>
-        <% } %>
+        <% }); %>
     </div>
+
+    <% if (listings.length === 0) { %>
+        <div class="text-center mt-5">
+            <h4 class="text-muted">No listings found for "<%= category %>"</h4>
+        </div>
+    <% } else { %>
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+            <% for(let listing of listings) { %>
+                <a href="/listings/<%=listing._id%>" style="text-decoration: none;">
+                    <div class="card col listing-card">
+                    <img src="<%=listing.image.url%>" class="card-img-top" alt="listing" style="height: 20rem;">
+                    <div class="card-img-overlay"></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <b><%= listing.title %></b> <br>
+                                &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            <% } %>
+        </div>
+    <% } %>
     
 </body>

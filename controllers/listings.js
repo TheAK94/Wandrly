@@ -9,8 +9,14 @@ const relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
 
 module.exports.index = async (req, res) => {
-    let allListings = await Listing.find({});
-    res.render("listings/index.ejs", {allListings});
+    const {category} = req.query;
+    let listings;
+    if (category) {
+        listings = await Listing.find({ category });
+    } else {
+        listings = await Listing.find({});
+    }
+    res.render("listings/index.ejs", {listings, category: category || "All" });
 };
 
 module.exports.renderNewForm = (req, res) => {
@@ -68,7 +74,7 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateListing = async (req, res) => {
     let {id} = req.params;
-    let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing});
+    let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing}, {runValidators: true});
     if (typeof req.file !== "undefined") {
         if (listing.image && listing.image.filename && listing.image.filename !== "listingimage") {
             await cloudinary.uploader.destroy(listing.image.filename);
