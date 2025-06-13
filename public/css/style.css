@@ -96,3 +96,9 @@ body {
 p {
     margin-bottom: 0.5rem !important;
 }
+
+#map { 
+    height: 400px;
+    width: 100%;
+    border-radius: 15px;
+}
