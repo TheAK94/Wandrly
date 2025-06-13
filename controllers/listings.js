@@ -68,7 +68,9 @@ module.exports.renderEditForm = async (req, res) => {
     }
 
     let imageUrl = listing.image.url;
-    imageUrl = imageUrl.replace("/upload", "/upload/h_200,w_250,b_blurred:300");
+    if (imageUrl.includes("res.cloudinary.com")) {
+        imageUrl = imageUrl.replace("/upload", "/upload/w_250,h_200,e_blur:300");
+    }
     res.render("listings/edit.ejs", {listing, imageUrl});
 };
 
