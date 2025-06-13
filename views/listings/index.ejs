@@ -23,15 +23,15 @@
         <% const currentCategory = category || null; %>
 
         <% const categories = [
-            { name: "Trending", icon: "fa-fire" },
-            { name: "Rooms", icon: "fa-bed" },
-            { name: "Iconic cities", icon: "fa-city" },
-            { name: "Mountains", icon: "fa-mountain" },
-            { name: "Castles", icon: "fa-fort-awesome" },
-            { name: "Beaches", icon: "fa-umbrella-beach" },
-            { name: "Camping", icon: "fa-tent" },
-            { name: "Farms", icon: "fa-cow" },
-            { name: "Arctic", icon: "fa-snowman" }
+            { name: "Trending", icon: "fa-solid fa-fire" },
+            { name: "Rooms", icon: "fa-solid fa-bed" },
+            { name: "Iconic cities", icon: "fa-solid fa-city" },
+            { name: "Mountains", icon: "fa-solid fa-mountain" },
+            { name: "Castles", icon: "fa-brands fa-fort-awesome" },
+            { name: "Beaches", icon: "fa-solid fa-umbrella-beach" },
+            { name: "Camping", icon: "fa-solid fa-tent" },
+            { name: "Farms", icon: "fa-solid fa-cow" },
+            { name: "Arctic", icon: "fa-solid fa-snowman" }
         ]; %>
 
         <% categories.forEach(cat => { 
@@ -41,7 +41,7 @@
             <a href="<%= href %>" 
             class="filter text-decoration-none px-3 py-2 m-0 mt-2 rounded text-center <% if (cat.name === currentCategory) { %>bg-dark text-white<% } else { %>text-dark<% } %>" 
             data-category="<%= cat.name %>">
-                <div><i class="fa-solid <%= cat.icon %>"></i></div>
+                <div><i class="<%= cat.icon %>"></i></div>
                 <p class="mb-0"><%= cat.name %></p>
             </a>
         <% }); %>

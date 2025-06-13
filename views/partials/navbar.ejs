@@ -1,22 +1,34 @@
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-md bg-white border-bottom sticky-top shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="/listings"><img src="/logo.png" alt="logo" height="50" class="me-2"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
-            <span class="navbar-toggler-icon"></span>
+        <a class="navbar-brand d-flex align-items-center" href="/listings">
+            <img src="/logo.png" alt="logo" height="50" class="me-2">
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+            <i class="bi bi-three-dots-vertical fs-3"></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-link" href="/listings">Explore</a>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="background-color: white;">
+            <div class="navbar-nav d-flex flex-column px-3 mt-3 mt-md-0 flex-md-row align-items-start align-items-md-center gap-2">
+                <div class="custom-border rounded">
+                    <a class="nav-link d-inline-block hover-glow rounded px-3" href="/listings">Explore</a>
+                </div>
+                
             </div>
-            <div class="navbar-nav ms-auto me-5">
-                <a class="nav-link" href="/listings/new">Add New Listing</a>
+
+            <div class="navbar-nav ms-md-auto px-3 py-2 pb-4 pb-md-2 d-flex flex-column flex-md-row align-items-start align-items-md-center gap-2">
+                <div class="custom-border rounded">
+                    <a class="nav-link d-inline-block hover-glow rounded px-3" href="/listings/new">Host on Wandrly</a>
+                </div>    
+                             
+                
                 <% if (!currUser) { %>
-                    <a class="nav-link me-3 btn btn-outline-primary border" href="/signup"><b>Sign Up</b></a>
-                    <a class="nav-link ms-2 btn btn-outline-primary border" href="/login"><b>Login</b></a>
+                    <a class="btn btn-outline-primary px-3" href="/signup"><b>Sign Up</b></a>
+                    <a class="btn btn-outline-primary px-3" href="/login"><b>Login</b></a>
                 <% } else { %>
-                    <a class="nav-link me-3 btn btn-outline-primary border" href="/logout"><b>Logout</b></a>
+                    <a class="btn btn-outline-primary px-3" href="/logout"><b>Logout</b></a>
                 <% } %>
             </div>
+
         </div>
     </div>
 </nav>
