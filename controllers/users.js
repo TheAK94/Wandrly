@@ -1,7 +1,7 @@
-const Booking = require("../models/booking.js");
-const Listing = require("../models/listing.js");
-const User = require("../models/user.js");
-const Review = require("../models/review.js");
+const Booking = require("../Models/booking.js");
+const Listing = require("../Models/listing.js");
+const User = require("../Models/user.js");
+const Review = require("../Models/review.js");
 
 module.exports.renderSignupForm = (req, res) => {
     res.render("users/signup.ejs")

@@ -1,5 +1,5 @@
-const Listing = require("../models/listing");
-const Booking = require("../models/booking.js");
+const Listing = require("../Models/listing");
+const Booking = require("../Models/booking.js");
 const {cloudinary} = require("../cloudConfig.js");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;

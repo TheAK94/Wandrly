@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const initData = require("./data.js");
-const Listing = require("../models/listing.js");
-const Review = require("../models/review.js");
-const User = require("../models/user.js");
+const Listing = require("../Models/listing.js");
+const Review = require("../Models/review.js");
+const User = require("../Models/user.js");
 // const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 // require("dotenv").config();
 // const geocoder = mbxGeocoding({ accessToken: "YOUR MAP TOKEN HERE" });
