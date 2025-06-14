@@ -44,3 +44,18 @@ module.exports.loginSchema = Joi.object({
     username: Joi.string().required(),
     password: Joi.string().required()
 });
+
+module.exports.bookingSchema = Joi.object({
+    startDate: Joi.date().required().label("Start Date"),
+    endDate: Joi.date().greater(Joi.ref('startDate')).required().label("End Date")
+        .custom((value, helpers) => {
+            const start = new Date(helpers.state.ancestors[0].startDate);
+            const diffDays = (new Date(value) - start) / (1000 * 60 * 60 * 24);
+            if (diffDays < 1 || diffDays > 7) {
+                return helpers.error("any.invalid");
+            }
+            return value;
+        }).messages({
+            "any.invalid": "Booking duration must be between 1 to 7 days."
+        })
+});

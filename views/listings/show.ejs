@@ -26,6 +26,42 @@
                         <p><b>Price:</b> ₹<%= listing.price.toLocaleString("en-IN") %></p>
                         <p><b>Location:</b> <%= listing.location %>, <%= listing.country %></p>
 
+                        <%
+                            function formatDateLocal(date) {
+                            const year = date.getFullYear();
+                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                            const day = String(date.getDate()).padStart(2, '0');
+                            return `${year}-${month}-${day}`;
+                        }
+
+                        const today = new Date();
+                        const oneMonthLater = new Date();
+                        oneMonthLater.setMonth(today.getMonth() + 1);
+
+                        const todayStr = formatDateLocal(today);
+                        const maxDateStr = formatDateLocal(oneMonthLater);
+                        %>
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <form action="/listings/<%=listing._id%>/book" method="POST" class="p-3">
+                                    <div class="mb-3">
+                                        <label for="bookingDateRange" class="form-label">Select Date Range</label>
+                                        <input type="text" id="bookingDateRange" class="form-control" placeholder="YYYY-MM-DD to YYYY-MM-DD" required>
+                                    </div>
+                                    <p id="totalPrice" class="mt-2 fw-bold text-success">Total Price: ₹0</p>
+
+
+                                    <!-- Hidden inputs to capture parsed range -->
+                                    <input type="hidden" name="startDate" id="startDate">
+                                    <input type="hidden" name="endDate" id="endDate">
+                                    
+                                    <button type="submit" class="btn btn-danger w-100">Book Now</button>
+                                </form>
+                            </div>
+                        </div>
+                        
+
                         <% if (currUser && listing.owner._id.equals(currUser._id)) { %>
                             <div class="mt-4 d-flex justify-content-start gap-3">
                                 <a href="/listings/<%= listing._id %>/edit" class="btn btn-outline-primary d-flex align-items-center gap-2 px-4 py-2 shadow-sm">
@@ -117,7 +153,30 @@
     
     </div>
 
+    <!-- Booking Error Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="bookingModalLabel">Booking Error</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="bookingModalBody">
+                <!-- Message -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Okay</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+<script>
+    const bookedRanges = <%- JSON.stringify(bookings) %>;
 
+    const pricePerNight = <%= listing.price %>;
+</script>
+
+<script src="/js/booking.js"></script>
 <script src="/js/map.js"></script>
-

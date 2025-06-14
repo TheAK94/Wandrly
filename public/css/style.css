@@ -126,3 +126,7 @@ p {
         border: none !important;
     }
 }
+
+#startDate, #endDate {
+    cursor: pointer;
+}

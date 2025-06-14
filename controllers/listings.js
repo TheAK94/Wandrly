@@ -1,4 +1,5 @@
 const Listing = require("../models/listing");
+const Booking = require("../models/booking.js");
 const {cloudinary} = require("../cloudConfig.js");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
@@ -47,7 +48,8 @@ module.exports.showListing = async (req, res) => {
         req.flash("error", "Listing you requested does not exist!");
         return res.redirect("/listings");
     }
-    res.render("listings/show.ejs", {listing, dayjs});
+    const bookings = await Booking.find({ listing: id });
+    res.render("listings/show.ejs", {listing, dayjs, bookings});
 };
 
 module.exports.createListing = async (req, res) => {
@@ -138,4 +140,55 @@ module.exports.destroyListing = async (req, res) => {
     await Listing.findByIdAndDelete(id);
     req.flash("success", "Listing Deleted!");
     res.redirect("/listings");
+};
+
+module.exports.newBooking = async (req, res) => {
+    // const { startDate, endDate } = req.body;
+    // const listing = await Listing.findById(req.params.id);
+    // const booking = new Booking({
+    //     listing: listing._id,
+    //     bookedBy: req.user._id,
+    //     startDate,
+    //     endDate
+    // });
+    // await booking.save();
+    // req.flash("success", "Booking Confirmed!");
+    // res.redirect('/profile');
+
+    let {id}= req.params;
+    const { startDate, endDate } = req.body;
+
+    if (!startDate || !endDate) {
+        req.flash("error", "Invalid booking dates.");
+        return res.redirect(`/listings/${id}`);
+    }
+
+    const listing = await Listing.findById(req.params.id);
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Check for overlapping bookings
+    const overlapping = await Booking.findOne({
+        listing: listing._id,
+        $or: [
+            { startDate: { $lte: end }, endDate: { $gte: start } }
+        ]
+    });
+
+    if (overlapping) {
+        req.flash("error", "Selected dates are already booked.");
+        return res.redirect(`/listings/${id}`);
+    }
+
+    const booking = new Booking({
+        listing: listing._id,
+        bookedBy: req.user._id,
+        startDate: start,
+        endDate: end
+    });
+
+    await booking.save();
+
+    req.flash("success", "Booking Confirmed!");
+    res.redirect("/profile#myBookings");
 };

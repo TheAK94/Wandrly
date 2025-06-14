@@ -1,7 +1,7 @@
 const Listing = require("./models/listing.js");
 const Review = require("./models/review.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingSchema, reviewSchema, signupSchema, loginSchema} = require("./schema.js");
+const {listingSchema, reviewSchema, signupSchema, loginSchema, bookingSchema} = require("./schema.js");
 const multer  = require('multer');
 const { storage } = require("./cloudConfig.js");
 
@@ -112,4 +112,14 @@ module.exports.imageUpload = (req, res, next) => {
         }
         next();
     });
+};
+
+module.exports.validateBooking = (req, res, next) => {
+    const { error } = bookingSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(", ");
+        throw new ExpressError(400, msg);
+    } else {
+        next();
+    }
 };

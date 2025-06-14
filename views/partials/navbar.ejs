@@ -3,9 +3,17 @@
         <a class="navbar-brand d-flex align-items-center" href="/listings">
             <img src="/logo.png" alt="logo" height="50" class="me-2">
         </a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
-            <i class="bi bi-three-dots-vertical fs-3"></i>
-        </button>
+        <div class="d-flex align-items-center d-md-none ms-auto">
+            <% if (currUser) { %>
+                <a href="/profile" class="nav-link me-2">
+                    <i class="bi bi-person-circle fs-3"></i>
+                </a>
+            <% } %>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+                <i class="bi bi-three-dots-vertical fs-3"></i>
+            </button>
+        </div>
+
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="background-color: white;">
             <div class="navbar-nav d-flex flex-column px-3 mt-3 mt-md-0 flex-md-row align-items-start align-items-md-center gap-2">
@@ -19,7 +27,12 @@
                 <div class="custom-border rounded">
                     <a class="nav-link d-inline-block hover-glow rounded px-3" href="/listings/new">Host on Wandrly</a>
                 </div>    
-                             
+                <% if (currUser) { %>
+                    <a class="nav-link d-none d-md-inline-block" href="/profile">
+                        <i class="bi bi-person-circle fs-4"></i>
+                    </a>
+                <% } %>
+
                 
                 <% if (!currUser) { %>
                     <a class="btn btn-outline-primary px-3" href="/signup"><b>Sign Up</b></a>

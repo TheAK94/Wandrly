@@ -26,15 +26,3 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-let taxSwitch = document.getElementById("switchCheckDefault");
-taxSwitch.addEventListener("click", () => {
-    let taxInfo = document.getElementsByClassName("tax-info");
-	for (info of taxInfo) {
-		if (info.style.display != "none") {
-			info.style.display = "none";
-		} else {
-			info.style.display = "inline";
-		}
-		
-	}
-})
