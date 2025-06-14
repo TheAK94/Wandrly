@@ -54,26 +54,29 @@ module.exports.showListing = async (req, res) => {
 
 module.exports.createListing = async (req, res) => {
     const fullLocation = `${req.body.listing.location}, ${req.body.listing.country}`;
-    let response = await geocodingClient
+    const response = await geocodingClient
         .forwardGeocode({
             query: fullLocation,
             limit: 1
         })
-        .send()
-    
-    
+        .send();
+
+    if (!response.body.features.length) {
+        req.flash("error", "Invalid location");
+        return res.redirect("/listings/new");
+    }
+
     let newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
+
     if (req.file) {
-        let url = req.file.path;
-        let filename = req.file.filename;
+        const { path: url, filename } = req.file;
         newListing.image = { filename, url };
     }
 
     newListing.geometry = response.body.features[0].geometry;
-    
-    let savedListing = await newListing.save();
-    // console.log(savedListing);
+
+    await newListing.save();
     req.flash("success", "New Listing Created!");
     res.redirect("/listings");
 };
@@ -167,7 +170,6 @@ module.exports.newBooking = async (req, res) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
 
-    // Check for overlapping bookings
     const overlapping = await Booking.findOne({
         listing: listing._id,
         $or: [

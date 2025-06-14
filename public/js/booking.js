@@ -21,7 +21,6 @@ function getBlockedDates(ranges) {
 
 const disabledDates = getBlockedDates(bookedRanges);
 
-// Calculate maxDate as 1 month from today
 const today = new Date();
 const oneMonthLater = new Date();
 oneMonthLater.setMonth(today.getMonth() + 1);
