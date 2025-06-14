@@ -77,7 +77,7 @@
                 <a href="/listings/<%=listing._id%>" style="text-decoration: none;">
                     <div class="card col listing-card position-relative">
                         <% if (listing.reviews && listing.reviews.length >= 5) { %>
-                            <span class="badge position-absolute top-0 end-0 m-2 fs-5"><i class="bi bi-fire"></i></span>
+                            <span class="badge position-absolute text-danger top-0 end-0 m-2 fs-5"><i class="bi bi-fire"></i></span>
                         <% } %>
                         <img src="<%=listing.image.url%>" class="card-img-top" alt="listing" style="height: 20rem;">
                         <div class="card-img-overlay"></div>

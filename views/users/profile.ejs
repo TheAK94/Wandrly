@@ -134,11 +134,29 @@
                                     </div>
                                     <div class="d-flex gap-2 mt-2 mt-md-0">
                                         <a href="/listings/<%= booking.listing._id %>" class="btn btn-sm btn-outline-primary">View</a>
-                                        <form action="/bookings/<%= booking._id %>/cancel" method="POST" onsubmit="return confirm('Cancel this booking?');">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">Cancel</button>
-                                        </form>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelBooking">
+                                            Cancel
+                                        </button>
                                     </div>
                                 </li>
+                                <!-- Cancel Modal -->
+                                <div class="modal fade" id="cancelBooking" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Cancel this Booking ?</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            
+                                            <div class="modal-footer">
+                                                <form action="/bookings/<%= booking._id %>/cancel" method="POST">
+                                                    <button class="btn btn-sm btn-outline-danger">Cancel</button>
+                                                </form>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <% }) %>
                         </ul>
                     <% } else { %>
